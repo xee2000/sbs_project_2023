@@ -54,6 +54,7 @@ public class UsrArticleController {
 		return null;
 	}
 	
+	
 	private void deleteArticle(int id) {
 		Article article = getArticle(id);
 		
@@ -81,6 +82,17 @@ public class UsrArticleController {
 	public List<Article> getArticles() {
 		return articles;
 	}
+	
+	@RequestMapping("/usr/article/getArticle")
+	@ResponseBody
+	public Object getArticleAction(int id) {
+		Article article = getArticle(id);
+		if(article == null) {
+			return id+ "번 게시물이 존재하지 않습니다.";
+		}
+		return article;
+	}
+	
 	
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody

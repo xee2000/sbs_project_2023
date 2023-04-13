@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 public class UsrHomeController {
 	private int count;
-	@RequestMapping("/usr/home/main")
-	@ResponseBody
-	public String showMain() {
-		return "안녕하세요";
+	
+	public UsrHomeController() {
+		count = -1;
 	}
+
 	@RequestMapping("/usr/home/main2")
 	@ResponseBody
 	public String showMain2() {
@@ -36,7 +36,18 @@ public class UsrHomeController {
 	count = 0;
 		return "count의 값이 0으로 초기화 되었습니다.";
 	}
-
+	@RequestMapping("/usr/home/getCount")
+	@ResponseBody
+	public int getCount() {
+		return count;
+	}
+	@RequestMapping("/usr/home/doSetCount")
+	@ResponseBody
+	public String showMain() {
+		this.count = count;
+		return "Main입니다.";
+	}
+	
 	
 }
 

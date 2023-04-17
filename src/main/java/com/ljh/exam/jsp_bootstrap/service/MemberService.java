@@ -1,34 +1,23 @@
 package com.ljh.exam.jsp_bootstrap.service;
 
-import java.util.List;
+import org.springframework.stereotype.Service;
 
 import com.ljh.exam.jsp_bootstrap.repository.MemberRepository;
-import com.ljh.exam.jsp_bootstrap.vo.Member;
 
+
+@Service
 public class MemberService {
-private MemberRepository memberRepository;
-	
+	private MemberRepository memberRepository;
 
-public MemberService(MemberRepository memberRepository) {
-	this.memberRepository = memberRepository;
-}
-public Member getMember(int id) {
-	return memberRepository.selectMember(id);
-}
-	
-	public List<Member> getMembers() {
-		return memberRepository.selectListMember();
-	}
-	
-	public void deleteArticle(int id) {
-		memberRepository.deleteMember(id);
+	public MemberService(MemberRepository memberRepository) {
+		this.memberRepository = memberRepository;
 	}
 
-	public void modifyMember(Member member) {
-		memberRepository.updateMember(member);
-	}
-	public void join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
-		// TODO Auto-generated method stub
+
+
+	 public void join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
+		memberRepository.join(loginId, loginPw, name, nickname, cellphoneNo, email);
 		
+			
 	}
 }

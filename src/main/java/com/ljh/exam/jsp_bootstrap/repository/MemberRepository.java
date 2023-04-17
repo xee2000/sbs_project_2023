@@ -49,7 +49,7 @@ public interface MemberRepository {
 	@Select("""
 			select *
 			from `member` AS M
-			where M.name = #{name} and M.email = #{email}
+			where M.name = #{name} or M.email = #{email}
 			""")
 	Member getMemberByNameandEmail(@Param("name")String name,@Param("email") String email);
 }

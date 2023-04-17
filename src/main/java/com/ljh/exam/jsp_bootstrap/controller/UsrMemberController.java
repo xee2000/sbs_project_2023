@@ -22,10 +22,33 @@ public class UsrMemberController {
 	// 액션 메서드 시작
 	@RequestMapping("/usr/member/dojoin")
 	@ResponseBody
-	 Member dojoin(String loginId, String loginPw, String name, String nickname, String cellphoneNo,
+	 Object dojoin(String loginId, String loginPw, String name, String nickname, String cellphoneNo,
 			String email) {
-		int id = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email);
-		Member member = memberService.getMemberById(id);
+		
+	if(loginId == null || loginId.trim().length() == 0) {
+		return "loginId를(을) 입력해주세요.";
+	}
+	if(loginPw == null || loginPw.trim().length() == 0) {
+		return "loginPw를(을) 입력해주세요.";
+	}
+	if(name == null || name.trim().length() == 0) {
+		return "name를(을) 입력해주세요.";
+	}
+	if(nickname == null || nickname.trim().length() == 0) {
+		return "nickname를(을) 입력해주세요.";
+	}
+	if(cellphoneNo == null || cellphoneNo.trim().length() == 0) {
+		return "cellphoneNo를(을) 입력해주세요.";
+	}
+	if(email == null || email.trim().length() == 0) {
+		return "email를(을) 입력해주세요.";
+	}
+	int id = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email);
+	
+	if ( id == -1 ) {
+		return "해당 로그인 아이디는 이미 사용중입니다.";
+	}
+	Member member = memberService.getMemberById(id);
 		
 		return member;
 	}
@@ -35,5 +58,12 @@ public class UsrMemberController {
 	public List<Member> getMembers() {
 	List<Member> memberList=memberService.getMembers();
 		return memberList;
+	}
+	
+	@RequestMapping("/usr/member/getMemberById")
+	@ResponseBody
+	public Member getMemberById(int id) {
+		Member member = memberService.getMemberById(id);
+		return member;
 	}
 }

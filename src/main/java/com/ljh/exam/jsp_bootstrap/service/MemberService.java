@@ -18,12 +18,25 @@ public class MemberService {
 
 
 
-	  public int join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
+	public int join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
+		Member oldMember = getMemberByLoginId(loginId);
+		
+		if ( oldMember != null ) {
+			return -1;
+		}
 		memberRepository.join(loginId, loginPw, name, nickname, cellphoneNo, email);
-			return memberRepository.getLastInsertId();
+		
+		return memberRepository.getLastInsertId();
 	}
 	  
-	  public Member getMemberById(int id) {
+	  private Member getMemberByLoginId(String loginId) {
+		  
+		  return memberRepository.getMemberByLoginId(loginId);
+	}
+
+
+
+	public Member getMemberById(int id) {
 		  return memberRepository.getMemberById(id);
 	  }
 	  public List<Member> getMembers(){

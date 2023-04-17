@@ -49,6 +49,9 @@ public class UsrMemberController {
 	if ( id == -1 ) {
 		return "해당 로그인 아이디는 이미 사용중입니다.";
 	}
+	if( id == -2) {
+		return "가입하고자 하는 유저의 이름또는 이메일이 사용중인 상태입니다.";
+	}
 	Member member = memberService.getMemberById(id);
 		
 		return member;
@@ -67,4 +70,5 @@ public class UsrMemberController {
 		Member member = memberService.getMemberById(id);
 		return member;
 	}
+	
 }

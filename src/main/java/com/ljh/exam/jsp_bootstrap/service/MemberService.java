@@ -20,9 +20,12 @@ public class MemberService {
 
 	public int join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
 		Member oldMember = getMemberByLoginId(loginId);
-		
 		if ( oldMember != null ) {
 			return -1;
+		}
+		oldMember = getMemberByNameandEmail(name, email);
+		if(oldMember !=null) {
+			return -2;
 		}
 		memberRepository.join(loginId, loginPw, name, nickname, cellphoneNo, email);
 		
@@ -38,6 +41,10 @@ public class MemberService {
 
 	public Member getMemberById(int id) {
 		  return memberRepository.getMemberById(id);
+	  }
+	
+	public Member getMemberByNameandEmail(String name, String email) {
+		  return memberRepository.getMemberByNameandEmail(name, email);
 	  }
 	  public List<Member> getMembers(){
 		  List<Member> memberList =memberRepository.selectMembers();

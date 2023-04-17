@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ljh.exam.jsp_bootstrap.repository.MemberRepository">
+	<insert id="insertMember">
+		INSERT INTO member SET regDate = NOW(), updateDate = NOW(), id = #{id}, loginId = #{loginId}, loginPw = #{loginPw}, name = #{name}, 
+		nickname = #{nickname}, cellphoneNo = #{cellphoneNo}, email = #{email}
+	</insert>
+
+	<select id="selectListMember" resultType="Member">
+	SELECT * FROM member ORDER BY ID DESC
+	</select>
+	
+	<select id="selectMember" resultType="Member">
+	SELECT * FROM member WHERE id = #{id}
+	</select>
+	<delete id="deleteMember">
+	DELETE FROM member WHERE id = #{id}
+	</delete>
+	
+	<update id="modifyMember">
+	UPDATE member 
+	<set>
+	<if test="id != null and id != ''"> id = #{id}</if>
+	<if test="pw != null and pw != ''"> pw = #{pw}</if>
+	<if test="name != null and name != ''">name = #{name}</if>
+	<if test="nickname != null and nickname != ''">nickname = #{nickname}</if>
+	<if test="cellphoneNo != null and cellphoneNo != ''">cellphoneNo = #{cellphoneNo}</if>
+	<if test="email != null and email != ''">email = #{email}</if>
+	</set> 
+	updateDate = NOW() WHERE ID = #{id}
+	</update>
+
+</mapper> 

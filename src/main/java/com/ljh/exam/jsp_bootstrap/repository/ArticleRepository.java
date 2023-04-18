@@ -9,17 +9,15 @@ import com.ljh.exam.jsp_bootstrap.vo.Article;
 
 @Mapper
 public interface ArticleRepository {
-	
 	public Article getArticle(@Param("id") int id);
 	
 	public List<Article> getArticles();
-
-	public void writeArticle(@Param("title")String title,@Param("body") String body);
 	
-	public void deleteArticle(@Param("id")int id);
+	public void writeArticle(@Param("memberId") int memberId, @Param("title") String title, @Param("body") String body);
+	
+	public void deleteArticle(@Param("id") int id);
 
-	public void modifyArticle(@Param("id")int id, @Param("title")String title,@Param("body") String body);
+	public void modifyArticle(@Param("id") int id, @Param("title") String title, @Param("body") String body);
 
-	public int getLastInsertId();
-
+	public int getLastInsertId();	
 }

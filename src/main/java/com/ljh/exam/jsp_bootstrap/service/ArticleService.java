@@ -24,11 +24,11 @@ public class ArticleService {
 		return articleRepository.getArticles();
 	}
 	
-	public ResultData<Integer> writeArticle(String title, String body) {
-		 articleRepository.writeArticle(title, body);
-		 
-		 int id = articleRepository.getLastInsertId();
-		 return ResultData.from("S-1", Ut.f("%d번 게시물이 생성되었습니다.", id),id);
+	public ResultData<Integer> writeArticle(int memberId, String title, String body) {
+		articleRepository.writeArticle(memberId, title, body);
+		int id = articleRepository.getLastInsertId();
+		
+		return ResultData.from("S-1", Ut.f("%d번 게시물이 생성되었습니다.", id), id);
 	}
 	
 	public void deleteArticle(int id) {
@@ -38,4 +38,5 @@ public class ArticleService {
 	public void modifyArticle(int id, String title, String body) {
 		articleRepository.modifyArticle(id, title, body);
 	}
+
 }

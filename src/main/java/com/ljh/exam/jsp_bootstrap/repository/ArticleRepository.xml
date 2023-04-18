@@ -3,7 +3,7 @@
 <mapper
 	namespace="com.ljh.exam.jsp_bootstrap.repository.ArticleRepository">
 	<insert id="writeArticle">
-		INSERT INTO article SET regDate = NOW(), updateDate = NOW(), title = #{title}, `body` = #{body}
+		INSERT INTO article SET regDate = NOW(), updateDate = NOW(), title = #{title}, `body` = #{body}, memberId = #{memberId}
 	</insert>
 
 	<select id="getArticles" resultType="Article">

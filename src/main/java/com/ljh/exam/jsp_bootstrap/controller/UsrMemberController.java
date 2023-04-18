@@ -49,6 +49,7 @@ public class UsrMemberController {
 	if ( id == -1 ) {
 		return Ut.f("해당 로그인 아이디(%s)는 이미 사용중입니다.",loginId);
 	}
+	
 	if( id == -2) {
 		return Ut.f("가입하고자 하는 유저의 이름(%s)또는 이메일(%s)이"
 				+ " 사용중인 상태입니다.",name,email);

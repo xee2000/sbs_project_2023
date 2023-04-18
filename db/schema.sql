@@ -45,3 +45,12 @@ cellphoneNo = '01011111111',
 email = 'admin@gmail.com';
 
 SELECT * FROM `member`;
+
+#article테이블에 컬럼추가
+ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER `updateDate`;
+
+UPDATE article
+SET memberId = 2
+WHERE memberId = 0;
+
+SELECT * FROM article;

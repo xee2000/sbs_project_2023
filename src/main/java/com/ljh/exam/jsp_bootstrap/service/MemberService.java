@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ljh.exam.jsp_bootstrap.repository.MemberRepository;
+import com.ljh.exam.jsp_bootstrap.utill.Ut;
 import com.ljh.exam.jsp_bootstrap.vo.Member;
+import com.ljh.exam.jsp_bootstrap.vo.ResultData;
 
 
 @Service
@@ -18,18 +20,18 @@ public class MemberService {
 
 
 
-	public int join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
+	public ResultData join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
 		Member oldMember = getMemberByLoginId(loginId);
 		if ( oldMember != null ) {
-			return -1;
+			return ResultData.from("F-7", Ut.f("해당 로그인 아이디(%s)는 이미 사용중입니다.", loginId));
 		}
 		oldMember = getMemberByNameandEmail(name, email);
 		if(oldMember !=null) {
-			return -2;
+			return ResultData.from("F-8", Ut.f("해당 이름(%s)과 이메일(%s)는 이미 사용중입니다.", name,email));
 		}
 		memberRepository.join(loginId, loginPw, name, nickname, cellphoneNo, email);
-		
-		return memberRepository.getLastInsertId();
+		int id = memberRepository.getLastInsertId();
+		return ResultData.from("S-1", "회원가입이 완료되었습니다.",id);
 	}
 	  
 	  private Member getMemberByLoginId(String loginId) {

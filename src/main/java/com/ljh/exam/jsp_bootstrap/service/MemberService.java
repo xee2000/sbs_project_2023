@@ -20,7 +20,7 @@ public class MemberService {
 
 
 
-	public ResultData join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
+	public ResultData<Integer> join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
 		Member oldMember = getMemberByLoginId(loginId);
 		if ( oldMember != null ) {
 			return ResultData.from("F-7", Ut.f("해당 로그인 아이디(%s)는 이미 사용중입니다.", loginId));

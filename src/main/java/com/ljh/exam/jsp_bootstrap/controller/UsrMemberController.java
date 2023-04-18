@@ -24,7 +24,7 @@ public class UsrMemberController {
 	// 액션 메서드 시작
 	@RequestMapping("/usr/member/dojoin")
 	@ResponseBody
-	 public ResultData dojoin(String loginId, String loginPw, String name, String nickname, String cellphoneNo,
+	 public ResultData<Member> dojoin(String loginId, String loginPw, String name, String nickname, String cellphoneNo,
 			String email) {
 		
 	if(Ut.empty(loginId)) {
@@ -45,12 +45,12 @@ public class UsrMemberController {
 	if(Ut.empty(email)) {
 		return ResultData.from("F-6", "email(을)를 입력해주세요");
 	}
-	ResultData joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email);
+	ResultData<Integer> joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email);
 	
 	if(joinRd.isFail()) {
-		return joinRd;
+		return (ResultData)joinRd;
 	}
-	Member member = memberService.getMemberById((int)joinRd.getData1());
+	Member member = memberService.getMemberById(joinRd.getData1());
 		
 		return ResultData.newData(joinRd, member);
 	}

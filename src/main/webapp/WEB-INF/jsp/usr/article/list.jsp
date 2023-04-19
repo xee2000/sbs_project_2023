@@ -23,7 +23,7 @@
 		<td>${regDate }</td>
 		<td>${updateDate }</td>
 		<td>${article.memberId }</td>
-		<td><a class="titlename" href="../article/detail?id=${article.title }">${article.title }</a></td>
+		<td><a class="titlename" href="../article/detail?id=${article.id }">${article.id }</a>${article.title }</td>
 		</tr>
 		</c:forEach>
 		</tbody>

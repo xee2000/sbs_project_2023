@@ -13,3 +13,7 @@ spring:
 mybatis:
   type-aliases-package: com.ljh.exam.jsp_bootstrap.vo
   
+custom:
+  logging:
+    dir: log
+    level: debug

@@ -127,6 +127,7 @@ public class UsrArticleController {
 		ResultData actorCanModifyRd = articleService.actorCanModify(rq.getLoginedMemberId(), article);
 
 		if (actorCanModifyRd.isFail()) {
+			
 			return actorCanModifyRd;
 		}
 

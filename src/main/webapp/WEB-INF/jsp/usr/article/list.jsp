@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" value="게시물 리스트"/>
 <%@include file="../common/head.jspf" %>
 
@@ -25,10 +26,12 @@
         </thead>
         <tbody>
           <c:forEach var="article" items="${articles}">
+        <fmt:formatDate value="${article.regDate }" var="regDate" pattern="yyyy-MM-dd"/>
+        <fmt:formatDate value="${article.updateDate }" var="updateDate" pattern="yyyy-MM-dd"/>
             <tr>
               <td>${article.id}</td>
-              <td>${article.regDate}</td>
-              <td>${article.updateDate}</td>
+              <td>${regDate}</td>
+              <td>${updateDate}</td>
               <td>${article.extra__writerName}</td>
               <td>
                 <a href="../article/detail?id=${article.id}">${article.title}</a>

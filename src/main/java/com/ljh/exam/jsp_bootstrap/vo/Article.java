@@ -18,4 +18,5 @@ public class Article {
 	private Date updateDate; 
 	private int memberId;
 	private String extra__writerName;
+	private boolean extra__actorCanDelete;
 }

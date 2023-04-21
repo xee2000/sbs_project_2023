@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.ljh.exam.jsp_bootstrap.vo.Article;
-
 @Mapper
 public interface ArticleRepository {
 	public Article getForPrintArticle(@Param("id") int id);

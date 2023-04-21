@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" value="게시물 내용"/>
 <%@include file="../common/head.jspf" %>
 
@@ -12,19 +11,17 @@
         <col width="200"/>
       </colgroup>
         <tbody>
-              <fmt:formatDate value="${article.regDate }" var="regDate" pattern="yyyy-MM-dd"/>
-        <fmt:formatDate value="${article.updateDate }" var="updateDate" pattern="yyyy-MM-dd"/>
           <tr>
             <th>번호</th>
             <td>${article.id}</td>
           </tr>
           <tr>
             <th>작성날짜</th>
-            <td>${regDate}</td>
+            <td>${article.regDate.substring(2, 16)}</td>
           </tr>
           <tr>
             <th>수정날짜</th>
-            <td>${updateDate}</td>
+            <td>${article.updateDate.substring(2, 16)}</td>
           </tr>
           <tr>
             <th>작성자</th>

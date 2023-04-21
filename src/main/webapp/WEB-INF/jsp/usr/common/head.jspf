@@ -8,11 +8,12 @@
 	<title>${pageTitle}</title>
 	<!-- 제이쿼리 불러오기 -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	
 	<!-- 테일윈드 불러오기 -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.7/tailwind.min.css"/>	
 	<!-- 노말라이즈, 라이브러리까지 한번에 해결 -->
-	<script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
-	
+	<!--데이지 UI  -->
+	<link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css" />
+
 	<!-- 폰트어썸 불러오기 -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 	
@@ -36,9 +37,15 @@
             <span>홈</span>
           </a>
         </li>
+        
+          <li>
+          <a href="/usr/article/write" class="h-full flex items-center px-3 hover:underline">
+            <span>작성</span>
+          </a>
+        </li>
         <li>
           <a href="/usr/article/list" class="h-full flex items-center px-3 hover:underline">
-            <span>리스트</span>
+            <span>게시글</span>
           </a>
         </li>
             <c:if test="${!rq.isLogined() }">

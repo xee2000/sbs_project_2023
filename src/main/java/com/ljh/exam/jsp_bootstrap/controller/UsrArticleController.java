@@ -9,19 +9,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ljh.exam.jsp_bootstrap.service.ArticleService;
+import com.ljh.exam.jsp_bootstrap.service.BoardService;
 import com.ljh.exam.jsp_bootstrap.utill.Ut;
 import com.ljh.exam.jsp_bootstrap.vo.Article;
+import com.ljh.exam.jsp_bootstrap.vo.Board;
 import com.ljh.exam.jsp_bootstrap.vo.ResultData;
 import com.ljh.exam.jsp_bootstrap.vo.Rq;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UsrArticleController {
 	@Autowired
 	private ArticleService articleService;
+	@Autowired
+	private BoardService boardService;
 
+	public UsrArticleController(ArticleService articleService, BoardService boardService) {
+		this.articleService = articleService;
+		this.boardService = boardService;
+	}
 	// 액션 메서드 시작
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
@@ -55,10 +62,12 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/list")
-	public String showList(HttpServletRequest req, Model model) {
+	public String showList(HttpServletRequest req, Model model, int boardId) {
+		Board board = boardService.getBoardById(boardId);
 		Rq rq = (Rq)req.getAttribute("rq");
 		
 		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId());
+		model.addAttribute("board", board);
 		model.addAttribute("articles", articles);
 
 		return "usr/article/list";

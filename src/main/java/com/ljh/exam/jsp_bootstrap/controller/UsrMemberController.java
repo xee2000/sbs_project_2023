@@ -2,7 +2,6 @@ package com.ljh.exam.jsp_bootstrap.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,7 +10,9 @@ import com.ljh.exam.jsp_bootstrap.service.MemberService;
 import com.ljh.exam.jsp_bootstrap.utill.Ut;
 import com.ljh.exam.jsp_bootstrap.vo.Member;
 import com.ljh.exam.jsp_bootstrap.vo.ResultData;
+import com.ljh.exam.jsp_bootstrap.vo.Rq;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -89,14 +90,11 @@ public class UsrMemberController {
 	
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(HttpSession httpSession, String loginId, String loginPw) {
+	public String doLogin(HttpServletRequest req, String loginId, String loginPw) {
+		Rq rq = (Rq) req.getAttribute("rq");
 		boolean isLogined = false;
 		
-		if (httpSession.getAttribute("loginedMemberId") != null ) {
-			isLogined = true;
-		}
-		
-		if ( isLogined ) {
+		if (rq.isLogined()) {
 			return Ut.jsHistoryBack("이미 로그인되었습니다.");
 		}
 		
@@ -118,8 +116,7 @@ public class UsrMemberController {
 			return Ut.jsHistoryBack("비밀번호가 일치하지 않습니다.");
 		}
 		
-		httpSession.setAttribute("loginedMemberId", member.getId());
-		
+		rq.Login(member);
 		return Ut.jsReplace(Ut.f("%s님 환영합니다.", member.getNickname()), "/");
 	}
 	

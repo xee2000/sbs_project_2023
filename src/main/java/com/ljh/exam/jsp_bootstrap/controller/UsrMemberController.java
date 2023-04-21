@@ -67,19 +67,13 @@ public class UsrMemberController {
 	
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
-	public ResultData<Member> doLogout(HttpSession httpSession) {
-		boolean isLogined = false;
-		
-		if (httpSession.getAttribute("loginedMemberId") == null ) {
-			isLogined = true;
-		}
-		
-		if ( isLogined ) {
+	public ResultData<Member> doLogout(HttpServletRequest req) {
+		Rq rq = (Rq) req.getAttribute("rq");
+		if ( rq.isLogined() ) {
 			return ResultData.from("S-1", "이미 로그아웃 상태입니다.");
 		}
 		
-		httpSession.removeAttribute("loginedMemberId");
-		
+		rq.logout();
 		return ResultData.from("S-2", "로그아웃 되었습니다.");
 	}
 	

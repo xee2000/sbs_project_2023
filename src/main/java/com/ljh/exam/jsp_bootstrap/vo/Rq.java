@@ -36,6 +36,7 @@ public class Rq {
 	}
 
 	public void printHistoryBackJs(String msg) {
+		
 		print(Ut.jsHistoryBack(msg));
 	}
 	public void print(String str) {

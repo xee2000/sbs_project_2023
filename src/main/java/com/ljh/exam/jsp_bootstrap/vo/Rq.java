@@ -2,6 +2,10 @@ package com.ljh.exam.jsp_bootstrap.vo;
 
 import java.io.IOException;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+
 import com.ljh.exam.jsp_bootstrap.service.MemberService;
 import com.ljh.exam.jsp_bootstrap.utill.Ut;
 
@@ -9,7 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
-
+@Component
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Rq {
 
 	@Getter
@@ -39,6 +44,7 @@ public class Rq {
 		this.isLogined = isLogined;
 		this.LoginedMemberId = loginedMemberId;
 		this.loginedMember = loginedMember;
+		this.req.setAttribute("rq", this);
 	}
 
 	public void printHistoryBackJs(String msg) {
@@ -78,5 +84,8 @@ public class Rq {
 	
 	public String jsReplace(String msg, String uri) {
 		return Ut.jsReplace(msg, uri);
+	}
+
+	public void initOnBeforeActionInterceptor() {
 	}
 }

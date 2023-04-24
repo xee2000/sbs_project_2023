@@ -11,7 +11,6 @@ import com.ljh.exam.jsp_bootstrap.vo.Member;
 
 @Mapper
 public interface MemberRepository {
-
 	@Insert("""
 			INSERT INTO `member`
 			SET regDate = NOW(),
@@ -21,21 +20,25 @@ public interface MemberRepository {
 			`name` = #{name},
 			nickname = #{nickname},
 			cellphoneNo = #{cellphoneNo},
-			email = #{email};
+			email = #{email}
 			""")
- void join(@Param("loginId")String loginId,@Param("loginPw") String loginPw, 
-			@Param("name")String name,@Param("nickname") String nickname, 
-			@Param("cellphoneNo")String cellphoneNo,@Param("email") String email);
-	
-	@Select("SELECT * FROM MEMBER where authLevel=3 order by id desc")
-	List<Member> selectMembers();
+	void join(@Param("loginId") String loginId, @Param("loginPw") String loginPw, @Param("name") String name, @Param("nickname") String nickname, @Param("cellphoneNo") String cellphoneNo, @Param("email") String email);
 
-	@Select("select last_insert_id()")	
+	@Select("""
+			SELECT *
+			FROM `member`
+			ORDER BY
+			id DESC
+			""")
+	List<Member> getMembers();
+
+	@Select("SELECT LAST_INSERT_ID()")
 	int getLastInsertId();
 	
 	@Select("""
-			select * from `member` as M
-			where M.id = #{id}
+			SELECT *
+			FROM `member` AS M
+			WHERE M.id = #{id}
 			""")
 	Member getMemberById(@Param("id") int id);
 
@@ -47,9 +50,10 @@ public interface MemberRepository {
 	Member getMemberByLoginId(@Param("loginId") String loginId);
 
 	@Select("""
-			select *
-			from `member` AS M
-			where M.name = #{name} or M.email = #{email}
+			SELECT *
+			FROM `member` AS M
+			WHERE M.name = #{name}
+			AND M.email = #{email}
 			""")
-	Member getMemberByNameandEmail(@Param("name")String name,@Param("email") String email);
+	Member getMemberByNameAndEmail(@Param("name") String name, @Param("email") String email);
 }

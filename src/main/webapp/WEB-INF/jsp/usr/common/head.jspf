@@ -58,7 +58,6 @@
           <a href="/usr/member/Login" class="h-full flex items-center px-3 hover:underline">
             <span>로그인</span>
           </a>
-         
         </li>
          </c:if>
          <c:if test="${rq.isLogined() }">
@@ -66,7 +65,6 @@
           <a href="/usr/member/doLogout" class="h-full flex items-center px-3 hover:underline">
             <span>로그아웃</span>
           </a>
-         
         </li>
          </c:if>
        

@@ -5,8 +5,8 @@
 
 <section class="mt-5">
   <div class="container mx-auto px-3">
-  <div>게시물 개수 : ${articlesCount}</div>
-    <div class="table-box-type-1">
+  <div>게시물 개수 : <span class="text-blue-700">${articlesCount}</span>개</div>
+    <div class="table table-fixed w-full">
       <table>
         <colgroup>	
           <col width="50"/>
@@ -26,13 +26,13 @@
         </thead>
         <tbody>
           <c:forEach var="article" items="${articles}">
-            <tr>
+            <tr class="hover">
               <td>${article.id}</td>
               <td>${article.regDate.substring(2, 16)}</td>
               <td>${article.updateDate.substring(2, 16)}</td>
               <td>${article.extra__writerName}</td>
               <td>
-                <a href="../article/detail?id=${article.id}">${article.title}</a>
+                <a class="btn-text-link block w-full truncate" href="../article/detail?id=${article.id}">${article.title}</a>
               </td>
             </tr>
           </c:forEach>

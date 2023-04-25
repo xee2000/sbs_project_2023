@@ -108,3 +108,48 @@ FROM article
 #게시물 컬럼추가
 ALTER TABLE article
 ADD COLUMN hitcount INT(10) UNSIGNED NOT NULL DEFAULT 0;
+
+# like 테이블 생성		      
+CREATE TABLE reactionPoint(
+id INT(10) UNSIGNED NOT NULL KEY AUTO_INCREMENT PRIMARY KEY,
+regDate DATETIME NOT NULL,
+updateDate DATETIME NOT NULL,
+memberId INT(10) UNSIGNED NOT NULL,
+relTypeCode CHAR(30) NOT NULL COMMENT '관련데이터타입코드',
+relId INT(10) UNSIGNED NOT NULL COMMENT '관련데이터번호',
+`point`SMALLINT(2) NOT NULL 
+);
+
+#리액션포인트 테스트 데이터
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+relTypeCode = 'article',
+relId = 1,
+`point` = -1;
+	
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+relTypeCode = 'article',
+relId = 2,
+`point` = 1;
+
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'article',
+relId = 2,
+`point` = -1;
+
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 3,
+relTypeCode = 'article',
+relId = 1,
+`point` = 1;
+	

@@ -84,6 +84,14 @@
 	</select>
 	
 	
+	<select id="getArticleHitCount" resultType="int">
+		SELECT hitCount 
+		FROM article
+		WHERE id = #{id}
+	</select>
+	
+	
+	
 	<update id="increaseHitCount">
 	update article
 	set hitCount = hitCount + 1

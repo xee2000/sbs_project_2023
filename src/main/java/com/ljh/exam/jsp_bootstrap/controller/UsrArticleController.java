@@ -97,19 +97,21 @@ public class UsrArticleController {
 		return "usr/article/detail";
 	}
 	
-	@RequestMapping("usr/article/doIncreaseHitCountRd")
+	@RequestMapping("/usr/article/doIncreaseHitCountRd")
 	@ResponseBody
 	public ResultData<Integer> doIncreaseHitCountRd(int id) {
+		ResultData<Integer> increaseHitCountRd = articleService.increaseHitCount(id);
 		
-		  ResultData<Integer> IncreaseHitCountRd = articleService.increaseHitCount(id);
-		  
-		 if(IncreaseHitCountRd.isFail()) {
-			 return IncreaseHitCountRd; 
-			 }
-		 
-		return ResultData.newData(IncreaseHitCountRd, "hitCount", articleService.getArticlesCount(id));
+		if (increaseHitCountRd.isFail()) {
+			return increaseHitCountRd;
+		}
+		
+		ResultData<Integer> rd = ResultData.newData(increaseHitCountRd, "hitCount", articleService.getArticleHitCount(id));
+		
+		rd.setData2("id", id);
+		
+		return rd;
 	}
-
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
 	public ResultData<Article> getArticle(int id) {

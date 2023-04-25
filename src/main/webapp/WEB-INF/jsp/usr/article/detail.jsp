@@ -8,6 +8,13 @@ params.id = parseInt('${param.id}');
 </script>
 <script>
 function ArticleDetail__increseHitCount(){
+	const localStorageKey = 'article__' + params.id + '__viewDone';
+	if(localStorage.getItem(localStorageKey)){
+		return;
+	}
+	
+	localStorage.setItem(localStorageKey, true);
+	
 	$.get(
 	'../article/doIncreaseHitCountRd',{
 		id : params.id
@@ -17,7 +24,7 @@ function ArticleDetail__increseHitCount(){
 }
 $(function(){
 	ArticleDetail__increseHitCount();
-	setTimeout(ArticleDetail__increseHitCount,3000);
+	/* setTimeout(ArticleDetail__increseHitCount,3000); */
 })
 </script>
 

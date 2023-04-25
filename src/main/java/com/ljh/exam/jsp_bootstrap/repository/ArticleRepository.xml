@@ -36,13 +36,31 @@
 		WHERE A.id = #{id}
 	</select>
 	
-	<select id="getArticlesCount" resultType="int">
-		SELECT COUNT(*) AS cnt
-		FROM article AS A
-		<if test="boardId != 0">
-			WHERE A.boardId = #{boardId}
-		</if>
-	</select>
+<select id="getArticlesCount" resultType="int">
+  SELECT COUNT(*) AS cnt
+  FROM article AS A
+  <if test="boardId != 0">
+    WHERE A.boardId = #{boardId}
+  </if>
+  <if test="searchKeyword != ''">
+    <choose>
+      <when test="searchKeywordTypeCode == 'title'">
+        AND A.title like CONCAT('%', #{searchKeyword},'%')
+      </when>
+      <when test="searchKeywordTypeCode == 'body'">
+        AND A.body like CONCAT('%', #{searchKeyword},'%')
+      </when>
+      <otherwise>
+        AND (
+          A.title like CONCAT('%', #{searchKeyword},'%')
+          OR 
+          A.body like CONCAT('%', #{searchKeyword},'%')
+        )
+      </otherwise>
+    </choose>
+  </if>
+</select>
+
 	
 	<select id="getLastInsertId" resultType="int">
 		SELECT LAST_INSERT_ID()

@@ -28,6 +28,10 @@
             <td>${article.extra__writerName}</td>
           </tr>
           <tr>
+            <th>조회수</th>
+            <td>${article.hitCount}</td>
+          </tr>
+          <tr>
             <th>제목</th>
             <td>
               ${article.title}
@@ -53,6 +57,7 @@
 			<a class="btn btn-link" onclick="if( confirm('정말 삭제하시겠습니까?') == false )return false;" href="../article/doDelete?id=${article.id}">게시물 삭제</a>
 		</c:if>
 		
+	</div>
 	</div>
 </section>
 <%@include file="../common/foot.jspf" %>

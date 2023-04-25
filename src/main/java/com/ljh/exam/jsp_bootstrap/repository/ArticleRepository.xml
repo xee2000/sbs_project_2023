@@ -38,8 +38,8 @@
       </otherwise>
     </choose>
   </if>
-		ORDER BY id DESC
-		<if test="limitStart != -1">
+		ORDER BY A.id DESC
+		<if test="limitTake != -1">
 		LiMIT #{limitStart}, #{limitTake}
 		</if>
 	</select>
@@ -82,6 +82,13 @@
 	<select id="getLastInsertId" resultType="int">
 		SELECT LAST_INSERT_ID()
 	</select>
+	
+	
+	<update id="increaseHitCount">
+	update article
+	set hitCount = hitCount + 1
+	where id = #{id}
+	</update>
 	
 	<delete id="deleteArticle">
 		DELETE

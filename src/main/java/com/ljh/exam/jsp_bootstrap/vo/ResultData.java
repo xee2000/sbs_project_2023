@@ -1,7 +1,9 @@
 package com.ljh.exam.jsp_bootstrap.vo;
 
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 public class ResultData<DT> {
 	@Getter
 	private String resultCode;

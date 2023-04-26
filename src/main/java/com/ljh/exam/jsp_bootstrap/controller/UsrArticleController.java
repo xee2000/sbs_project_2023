@@ -59,8 +59,8 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, @RequestParam(defaultValue = "1") int page,
-			@RequestParam(defaultValue = "1") int boardId,
+	public String showList(Model model, @RequestParam(defaultValue = "1") int boardId,
+			@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "title, body") String searchKeywordTypeCode,
 			@RequestParam(defaultValue = "") String searchKeyword) {
 		Board board = boardService.getBoardById(boardId);
@@ -72,8 +72,8 @@ public class UsrArticleController {
 		int articlesCount = articleService.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
 		int itemsCountInAPage = 10;
 		int pagesCount = (int) Math.ceil((double) articlesCount / itemsCountInAPage);
-		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId(), boardId,
-				searchKeywordTypeCode, searchKeyword, itemsCountInAPage, page);
+
+		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId(), boardId, searchKeywordTypeCode, searchKeyword, itemsCountInAPage, page);
 
 		model.addAttribute("board", board);
 		model.addAttribute("boardId", boardId);
@@ -86,16 +86,17 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/detail")
-	public String showDetail(Model model, int id) {
-		
-		
-		
+	public String showDetail(Model model, int id) {		
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
-
+		
+		boolean actorCanMakeReactionPoint = articleService.actorCanMakeReactionPoint(rq.getLoginedMemberId(), id);
+		
+		model.addAttribute("actorCanMakeReactionPoint", actorCanMakeReactionPoint);
 		model.addAttribute("article", article);
 
 		return "usr/article/detail";
 	}
+	
 	
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")
 	@ResponseBody
@@ -112,6 +113,7 @@ public class UsrArticleController {
 		
 		return rd;
 	}
+
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
 	public ResultData<Article> getArticle(int id) {

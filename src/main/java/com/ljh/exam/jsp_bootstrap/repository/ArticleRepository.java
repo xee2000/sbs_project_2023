@@ -12,7 +12,7 @@ public interface ArticleRepository {
 	
 	public List<Article> getForPrintArticles(int boardId, int limitStart, int limitTake, String searchKeywordTypeCode, String searchKeyword);
 	
-	public void writeArticle(@Param("memberId") int memberId,@Param("boardId") int boardId, @Param("title") String title, @Param("body") String body);
+	public void writeArticle(@Param("memberId") int memberId, @Param("boardId") int boardId, @Param("title") String title, @Param("body") String body);
 	
 	public void deleteArticle(@Param("id") int id);
 
@@ -20,9 +20,11 @@ public interface ArticleRepository {
 
 	public int getLastInsertId();
 
-	public int getArticlesCount(int boardId,String searchKeywordTypeCode,String searchKeyword);
+	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword);
 
 	public int increaseHitCount(int id);
 
-	public int getArticleHitCount(int id);	
+	public int getArticleHitCount(int id);
+
+	public int actorCanMakeReactionPoint(int memberId, int id);
 }

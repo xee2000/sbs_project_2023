@@ -34,8 +34,10 @@ class="ml-2 w-72 input input-bordered" value="${param.searchKeyword }" maxlength
       <table>
         <colgroup>	
           <col width="50"/>
-          <col width="200"/>
-          <col width="200"/>
+          <col width="100"/>
+          <col width="100"/>
+          <col width="50"/>
+          <col width="50"/>
           <col width="150"/>
           <col />
         </colgroup>
@@ -44,6 +46,8 @@ class="ml-2 w-72 input input-bordered" value="${param.searchKeyword }" maxlength
             <th>번호</th>
             <th>작성날짜</th>
             <th>수정날짜</th>
+            <th>조회</th>
+            <th>추천</th>
             <th>작성자</th>
             <th>제목</th>
           </tr>
@@ -51,9 +55,11 @@ class="ml-2 w-72 input input-bordered" value="${param.searchKeyword }" maxlength
         <tbody>
           <c:forEach var="article" items="${articles}">
             <tr class="hover">
-              <td>${article.id}</td>
-              <td>${article.regDate.substring(2, 16)}</td>
-              <td>${article.updateDate.substring(2, 16)}</td>
+             <th>${article.id}</th>
+              <td>${article.forPrintintType1RegDate()}</td>
+              <td>${article.forPrintintType1UpdateDate()}</td>
+              <td>${article.hitCount}</td>
+              <td>${article.extra__goodreactionPoint}</td>
               <td>${article.extra__writerName}</td>
               <td>
                 <a class="btn-text-link block w-full truncate" href="../article/detail?id=${article.id}">${article.title}</a>

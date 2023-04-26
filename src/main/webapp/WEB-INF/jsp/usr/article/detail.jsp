@@ -2,29 +2,37 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" value="게시물 내용"/>
 <%@include file="../common/head.jspf" %>
+
 <script>
-const params ={}
+const params = {}
 params.id = parseInt('${param.id}');
 </script>
+
 <script>
-function ArticleDetail__increseHitCount(){
+function ArticleDetail__increseHitCount() {
 	const localStorageKey = 'article__' + params.id + '__viewDone';
-	if(localStorage.getItem(localStorageKey)){
+	
+	if (localStorage.getItem(localStorageKey)) {
 		return;
 	}
 	
 	localStorage.setItem(localStorageKey, true);
 	
 	$.get(
-	'../article/doIncreaseHitCountRd',{
-		id : params.id
-	}, function(data){
-		$('.article-detail__hit-count').empty().html(data.data1);
-	},'json');
+		'../article/doIncreaseHitCountRd', {
+			id : params.id,
+			ajaxMode : 'Y'
+		}, function(data) {
+			$('.article-detail__hit-count').empty().html(data.data1);
+		}, 'json');
 }
-$(function(){
-	ArticleDetail__increseHitCount();
-	/* setTimeout(ArticleDetail__increseHitCount,3000); */
+
+$(function() {
+	// 실전코드
+	// ArticleDetail__increseHitCount();
+	
+	// 임시코드
+	setTimeout(ArticleDetail__increseHitCount, 300);
 })
 </script>
 
@@ -55,8 +63,27 @@ $(function(){
           <tr>
             <th>조회수</th>
             <td>
-            <span class="badge badge-primary article-detail__hit-count">${article.hitCount }</span>
-            </td>
+            	<span class="text-blue-700 article-detail__hit-count">${article.hitCount}</span>
+			</td>
+          </tr>
+          <tr>
+            <th>추천</th>
+            <td>
+            	<div class="flex items-center">
+            		<span class="text-blue-700">${article.extra__goodReactionPoint}</span>
+            		<span>&nbsp;</span>
+            		
+            		<c:if test="${actorCanMakeReactionPoint}">
+	            		<button class="btn btn-xs btn-outline btn-primary">
+	            			좋아요 👍
+	            		</button>
+	            		<span>&nbsp;</span>
+						<button class="btn btn-xs btn-outline btn-secondary">
+							싫어요 👎
+						</button>
+            		</c:if>
+            	</div>
+			</td>
           </tr>
           <tr>
             <th>제목</th>
@@ -83,8 +110,7 @@ $(function(){
 		<c:if test="${article.extra__actorCanDelete}">
 			<a class="btn btn-link" onclick="if( confirm('정말 삭제하시겠습니까?') == false )return false;" href="../article/doDelete?id=${article.id}">게시물 삭제</a>
 		</c:if>
-		
 	</div>
-	</div>
+  </div>
 </section>
-<%@include file="../common/foot.jspf" %>
+ <%@include file="../common/foot.jspf" %>

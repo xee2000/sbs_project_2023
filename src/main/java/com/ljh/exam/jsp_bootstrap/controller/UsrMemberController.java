@@ -28,7 +28,6 @@ public class UsrMemberController {
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
 	public ResultData<Member> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
-			
 		if ( Ut.empty(loginId) ) {
 			return ResultData.from("F-1", "loginId(을)를 입력해주세요.");
 		}
@@ -70,15 +69,16 @@ public class UsrMemberController {
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
 	public String doLogout() {
-		if (!rq.isLogined() ) {
+		if ( !rq.isLogined() ) {
 			return rq.jsHistoryBack("이미 로그아웃 상태입니다.");
 		}
 		
 		rq.logout();
-		return rq.jsReplace("로그아웃 되었습니다.","/");
+		
+		return rq.jsReplace("로그아웃 되었습니다.", "/");
 	}
 	
-	@RequestMapping("/usr/member/Login")
+	@RequestMapping("/usr/member/login")
 	public String showLogin() {
 		return "usr/member/login";
 	}
@@ -86,9 +86,7 @@ public class UsrMemberController {
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
 	public String doLogin(String loginId, String loginPw) {
-		boolean isLogined = false;
-		
-		if (rq.isLogined()) {
+		if ( rq.isLogined() ) {
 			return rq.jsHistoryBack("이미 로그인되었습니다.");
 		}
 		
@@ -110,7 +108,8 @@ public class UsrMemberController {
 			return rq.jsHistoryBack("비밀번호가 일치하지 않습니다.");
 		}
 		
-		rq.Login(member);
+		rq.login(member);
+		
 		return rq.jsReplace(Ut.f("%s님 환영합니다.", member.getNickname()), "/");
 	}
 	

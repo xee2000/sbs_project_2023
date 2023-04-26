@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.ljh.exam.jsp_bootstrap.repository.ArticleRepository">
-	<insert id="writeArticle">
+<insert id="writeArticle">
 		INSERT INTO article
 		SET regDate = NOW(),
 		updateDate = NOW(),
@@ -14,89 +14,90 @@
 	
 	<select id="getForPrintArticles" resultType="Article">
 		SELECT A.*,
-		M.nickname AS extra__writerName
-		FROM article AS A
-		LEFT JOIN MEMBER AS M
-		ON A.memberId = M.id
-		<if test="boardId != 0">
-			WHERE A.boardId = #{boardId}
-		</if>
-		<if test="searchKeyword != ''">
-    <choose>
-      <when test="searchKeywordTypeCode == 'title'">
-        AND A.title like CONCAT('%', #{searchKeyword},'%')
-      </when>
-      <when test="searchKeywordTypeCode == 'body'">
-        AND A.body like CONCAT('%', #{searchKeyword},'%')
-      </when>
-      <otherwise>
-        AND (
-          A.title like CONCAT('%', #{searchKeyword},'%')
-          OR 
-          A.body like CONCAT('%', #{searchKeyword},'%')
-        )
-      </otherwise>
-    </choose>
-  </if>
+		IFNULL(SUM(RP.point), 0) AS extra__sumReactionPoint,
+		IFNULL(SUM(IF(RP.point &gt; 0, RP.point, 0)), 0) AS extra__goodReactionPoint,
+		IFNULL(SUM(IF(RP.point &lt; 0, RP.point, 0)), 0) AS extra__badReactionPoint
+		FROM (
+		    SELECT A.*,
+		    M.nickname AS extra__writerName
+		    FROM article AS A
+		    LEFT JOIN MEMBER AS M
+		    ON A.memberId = M.id
+		    <if test="boardId != 0">
+				WHERE A.boardId = #{boardId}
+			</if>
+			<if test="searchKeyword != ''">
+			  <choose>
+			    <when test="searchKeywordTypeCode == 'title'">
+			      AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+			    </when>
+			    <when test="searchKeywordTypeCode == 'body'">
+			      AND A.body LIKE CONCAT('%', #{searchKeyword}, '%')
+			    </when>
+			    <otherwise>
+			    	AND (
+			    		A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+			    		OR
+			    		A.body LIKE CONCAT('%', #{searchKeyword}, '%')
+			    	)
+			    </otherwise>
+			  </choose>
+			</if>
+		) AS A
+		LEFT JOIN reactionPoint AS RP
+		ON RP.relTypeCode = 'article'
+		AND A.id = RP.relId
+		GROUP BY A.id
 		ORDER BY A.id DESC
 		<if test="limitTake != -1">
-		LiMIT #{limitStart}, #{limitTake}
+			LIMIT #{limitStart}, #{limitTake}
 		</if>
 	</select>
 	
 	<select id="getForPrintArticle" resultType="Article">
 		SELECT A.*,
-		M.nickname AS extra__writerName
+		M.nickname AS extra__writerName,
+		IFNULL(SUM(RP.point), 0) AS extra__sumReactionPoint,
+		IFNULL(SUM(IF(RP.point &gt; 0, RP.point, 0)), 0) AS extra__goodReactionPoint,
+		IFNULL(SUM(IF(RP.point &lt; 0, RP.point, 0)), 0) AS extra__badReactionPoint
 		FROM article AS A
 		LEFT JOIN MEMBER AS M
 		ON A.memberId = M.id
+		LEFT JOIN reactionPoint AS RP
+		ON RP.relTypeCode = 'article'
+		AND A.id = RP.relId
 		WHERE A.id = #{id}
+		GROUP BY A.id
 	</select>
 	
-<select id="getArticlesCount" resultType="int">
-  SELECT COUNT(*) AS cnt
-  FROM article AS A
-  <if test="boardId != 0">
-    WHERE A.boardId = #{boardId}
-  </if>
-  <if test="searchKeyword != ''">
-    <choose>
-      <when test="searchKeywordTypeCode == 'title'">
-        AND A.title like CONCAT('%', #{searchKeyword},'%')
-      </when>
-      <when test="searchKeywordTypeCode == 'body'">
-        AND A.body like CONCAT('%', #{searchKeyword},'%')
-      </when>
-      <otherwise>
-        AND (
-          A.title like CONCAT('%', #{searchKeyword},'%')
-          OR 
-          A.body like CONCAT('%', #{searchKeyword},'%')
-        )
-      </otherwise>
-    </choose>
-  </if>
-</select>
-
+	<select id="getArticlesCount" resultType="int">
+		SELECT COUNT(*) AS cnt
+		FROM article AS A
+		<if test="boardId != 0">
+			WHERE A.boardId = #{boardId}
+		</if>
+		<if test="searchKeyword != ''">
+		  <choose>
+		    <when test="searchKeywordTypeCode == 'title'">
+		      AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+		    </when>
+		    <when test="searchKeywordTypeCode == 'body'">
+		      AND A.body LIKE CONCAT('%', #{searchKeyword}, '%')
+		    </when>
+		    <otherwise>
+		    	AND (
+		    		A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+		    		OR
+		    		A.body LIKE CONCAT('%', #{searchKeyword}, '%')
+		    	)
+		    </otherwise>
+		  </choose>
+		</if>
+	</select>
 	
 	<select id="getLastInsertId" resultType="int">
 		SELECT LAST_INSERT_ID()
 	</select>
-	
-	
-	<select id="getArticleHitCount" resultType="int">
-		SELECT hitCount 
-		FROM article
-		WHERE id = #{id}
-	</select>
-	
-	
-	
-	<update id="increaseHitCount">
-	update article
-	set hitCount = hitCount + 1
-	where id = #{id}
-	</update>
 	
 	<delete id="deleteArticle">
 		DELETE
@@ -117,4 +118,24 @@
 		</set>
 		WHERE id = #{id}
 	</update>
+	
+	<update id="increaseHitCount">
+		UPDATE article
+		SET hitCount = hitCount + 1
+		WHERE id = #{id}
+	</update>
+	
+	<select id="getArticleHitCount" resultType="int">
+		SELECT hitCount
+		FROM article
+		WHERE id = #{id}
+	</select>
+	
+	<select id="actorCanMakeReactionPoint" resultType="int">
+		SELECT IFNULL(SUM(RP.point), 0) AS s
+		FROM reactionPoint AS RP
+		WHERE RP.relTypeCode = 'article'
+		AND RP.id = #{id}
+		AND RP.memberId = #{memberId}
+	</select>
 </mapper>

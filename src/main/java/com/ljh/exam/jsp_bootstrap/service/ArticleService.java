@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.ljh.exam.jsp_bootstrap.repository.ArticleRepository;
 import com.ljh.exam.jsp_bootstrap.utill.Ut;
 import com.ljh.exam.jsp_bootstrap.vo.Article;
+import com.ljh.exam.jsp_bootstrap.vo.Member;
 import com.ljh.exam.jsp_bootstrap.vo.ResultData;
 @Service
 public class ArticleService {
@@ -108,5 +109,9 @@ public class ArticleService {
 
 	public int getArticleHitCount(int id) {
 		return articleRepository.getArticleHitCount(id);
+	}
+
+	public boolean actorCanMakeReactionPoint(int actorId, int id) {
+		return articleRepository.actorCanMakeReactionPoint(actorId, id) == 0;
 	}
 }

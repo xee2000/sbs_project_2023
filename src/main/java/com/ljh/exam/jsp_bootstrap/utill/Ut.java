@@ -1,5 +1,7 @@
 package com.ljh.exam.jsp_bootstrap.utill;
 
+import java.net.URLEncoder;
+
 public class Ut {
 
 	public static boolean empty(Object obj) {
@@ -50,5 +52,13 @@ public class Ut {
 				</script>
 				""", msg,uri);
 				
+	}
+
+	public static String getUriEncoded(String str) {
+		try {
+			return URLEncoder.encode(str,"UTF-8");
+		}catch(Exception e){
+			return str;
+		}
 	}
 }

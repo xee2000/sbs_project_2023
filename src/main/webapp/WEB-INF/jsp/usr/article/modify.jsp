@@ -38,7 +38,7 @@
            <tr>
             <th>추천수</th>
             <td>
-            <span class="badge badge-primary article-detail__hit-count">${article.extra__goodreactionPoint }</span>
+            <span class="badge badge-primary article-detail__hit-count">${article.goodReactionPoint }</span>
             </td>
           </tr>
           <tr>

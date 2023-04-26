@@ -70,17 +70,17 @@ $(function() {
             <th>추천</th>
             <td>
             	<div class="flex items-center">
-            		<span class="text-blue-700">${article.extra__goodReactionPoint}</span>
+            		<span class="text-blue-700">${article.goodReactionPoint}</span>
             		<span>&nbsp;</span>
             		
             		<c:if test="${actorCanMakeReactionPoint}">
-	            		<button class="btn btn-xs btn-outline btn-primary">
+	            		<a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri}"  class="btn btn-xs btn-outline btn-primary">
 	            			좋아요 👍
-	            		</button>
+	            		</a>
 	            		<span>&nbsp;</span>
-						<button class="btn btn-xs btn-outline btn-secondary">
+						<a href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri}"class="btn btn-xs btn-outline btn-secondary">
 							싫어요 👎
-						</button>
+						</a>
             		</c:if>
             	</div>
 			</td>

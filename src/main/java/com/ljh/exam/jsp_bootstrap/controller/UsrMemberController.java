@@ -78,7 +78,7 @@ public class UsrMemberController {
 		return rq.jsReplace("로그아웃 되었습니다.", "/");
 	}
 	
-	@RequestMapping("/usr/member/login")
+	@RequestMapping("/usr/member/Login")
 	public String showLogin() {
 		return "usr/member/login";
 	}

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ljh.exam.jsp_bootstrap.service.ArticleService;
 import com.ljh.exam.jsp_bootstrap.service.BoardService;
+import com.ljh.exam.jsp_bootstrap.service.ReactionPointService;
 import com.ljh.exam.jsp_bootstrap.utill.Ut;
 import com.ljh.exam.jsp_bootstrap.vo.Article;
 import com.ljh.exam.jsp_bootstrap.vo.Board;
@@ -22,11 +23,14 @@ import jakarta.servlet.http.HttpServletRequest;
 public class UsrArticleController {
 	private ArticleService articleService;
 	private BoardService boardService;
+	private ReactionPointService reactionPointService;
 	private Rq rq;
 
-	public UsrArticleController(ArticleService articleService, BoardService boardService, Rq rq) {
+	public UsrArticleController(ArticleService articleService, BoardService boardService,
+			ReactionPointService reactionPointService, Rq rq) {
 		this.articleService = articleService;
 		this.boardService = boardService;
+		this.reactionPointService = reactionPointService;
 		this.rq = rq;
 	}
 
@@ -73,7 +77,8 @@ public class UsrArticleController {
 		int itemsCountInAPage = 10;
 		int pagesCount = (int) Math.ceil((double) articlesCount / itemsCountInAPage);
 
-		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId(), boardId, searchKeywordTypeCode, searchKeyword, itemsCountInAPage, page);
+		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId(), boardId,
+				searchKeywordTypeCode, searchKeyword, itemsCountInAPage, page);
 
 		model.addAttribute("board", board);
 		model.addAttribute("boardId", boardId);
@@ -86,31 +91,32 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/detail")
-	public String showDetail(Model model, int id) {		
+	public String showDetail(Model model, int id) {
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
-		
-		boolean actorCanMakeReactionPoint = articleService.actorCanMakeReactionPoint(rq.getLoginedMemberId(), id);
-		
+
+		boolean actorCanMakeReactionPoint = reactionPointService.actorCanMakeReactionPoint(rq.getLoginedMemberId(),
+				"article", id);
+
 		model.addAttribute("actorCanMakeReactionPoint", actorCanMakeReactionPoint);
 		model.addAttribute("article", article);
 
 		return "usr/article/detail";
 	}
-	
-	
+
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")
 	@ResponseBody
 	public ResultData<Integer> doIncreaseHitCountRd(int id) {
 		ResultData<Integer> increaseHitCountRd = articleService.increaseHitCount(id);
-		
+
 		if (increaseHitCountRd.isFail()) {
 			return increaseHitCountRd;
 		}
-		
-		ResultData<Integer> rd = ResultData.newData(increaseHitCountRd, "hitCount", articleService.getArticleHitCount(id));
-		
+
+		ResultData<Integer> rd = ResultData.newData(increaseHitCountRd, "hitCount",
+				articleService.getArticleHitCount(id));
+
 		rd.setData2("id", id);
-		
+
 		return rd;
 	}
 

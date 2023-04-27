@@ -36,7 +36,11 @@ $(function() {
 })
 </script>
 
+
+
 <script>
+
+//댓글 작성 관련
 	let ReplyWrite__submitFormDone = false;
 	function ReplyWrite__submitForm(form) {
 		if ( ReplyWrite__submitFormDone ) {
@@ -176,6 +180,10 @@ $(function() {
 	        <col width="200"/>
 	      </colgroup>
 	        <tbody>
+	         <tr>
+	            <th>relId</th>
+	            <td>${article.id}</td>
+	          </tr>
 	          <tr>
 	            <th>작성자</th>
 	            <td>${rq.loginedMember.nickname}</td>
@@ -200,6 +208,12 @@ $(function() {
 		<a class="btn btn-link" href="/usr/member/login">로그인</a>후 이용해주세요
 	</c:if>
   </div>
+</section>
+<section class="mt-5">
+<div class="container mx-auto px-3">
+<h1>댓글리스트(${repliesCount})</h1>
+</div>
+
 </section>
 
  <%@include file="../common/foot.jspf" %>

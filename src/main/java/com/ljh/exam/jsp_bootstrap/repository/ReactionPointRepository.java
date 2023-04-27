@@ -13,12 +13,12 @@ public interface ReactionPointRepository {
 			AND RP.relId = #{relId}
 			AND RP.memberId = #{memberId}
 			""")
-	public int actorCanMakeReactionPoint(int memberId, String relTypeCode, int relId);
+	public int getSumReactionPointByMemberId(int relId, String relTypeCode, int memberId);
 
 	@Insert("""
-			insert into reactionPoint
-			set regDate = now(),
-			updateDate = now(),
+			INSERT INTO reactionPoint
+			SET regDate = NOW(),
+			updateDate = NOW(),
 			relTypeCode = #{relTypeCode},
 			relId = #{relId},
 			memberId = #{memberId},
@@ -27,9 +27,9 @@ public interface ReactionPointRepository {
 	public void addGoodReactionPoint(int memberId, String relTypeCode, int relId);
 	
 	@Insert("""
-			insert into reactionPoint
-			set regDate = now(),
-			updateDate = now(),
+			INSERT INTO reactionPoint
+			SET regDate = NOW(),
+			updateDate = NOW(),
 			relTypeCode = #{relTypeCode},
 			relId = #{relId},
 			memberId = #{memberId},

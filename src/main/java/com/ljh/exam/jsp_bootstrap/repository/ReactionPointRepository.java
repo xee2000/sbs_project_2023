@@ -1,5 +1,6 @@
 package com.ljh.exam.jsp_bootstrap.repository;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -36,4 +37,20 @@ public interface ReactionPointRepository {
 			`point` = -1
 			""")
 	public void addBadReactionPoint(int memberId, String relTypeCode, int relId);
+
+	@Delete("""
+			delete from reactionPoint
+			where relTypeCode = #{relTypeCode}
+			and relId = #{relId}
+			and memberId = #{memberId}
+			""")
+	public void deleteGoodReactionPoint(int memberId, String relTypeCode, int relId);
+	
+	@Delete("""
+			delete from reactionPoint
+			where relTypeCode = #{relTypeCode}
+			and relId = #{relId}
+			and memberId = #{memberId}
+			""")
+	public void deleteBadReactionPoint(int memberId, String relTypeCode, int relId);
 }

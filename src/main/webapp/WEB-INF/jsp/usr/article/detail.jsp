@@ -37,26 +37,30 @@ $(function() {
 </script>
 
 <script>
-let ReplyWrite__submitFormDone = false;
-function ReplyWrite__submitForm(form){
-	if(ReplyWrite__submitFormDone){
-		return;
+	let ReplyWrite__submitFormDone = false;
+	function ReplyWrite__submitForm(form) {
+		if ( ReplyWrite__submitFormDone ) {
+			return;
+		}    
+		
+		// 좌우공백 제거
+		form.body.value = form.body.value.trim();
+		
+		if ( form.body.value.length == 0 ) {
+			alert('댓글을 입력해주세요.');
+			form.body.focus();
+			return;
+		}
+		
+		if ( form.body.value.length < 2 ) {
+			alert('댓글을 2자 이상 입력해주세요.');
+			form.body.focus();
+			return;
+		}
+		
+		ReplyWrite__submitFormDone = true;
+		form.submit();		
 	}
-	form.body.value = form.body.value.trim();
-	
-	if(form.body.value.length == 0){
-		alert('댓글을 입력해주세요.');
-		form.body.focus();
-		return;
-	}
-	if(form.body.value.length < 2){
-		alert('2자 이상 입력해주세요.');
-		form.body.focus();
-		return;
-}
-	ReplyWrite__submitFormDone = true;
-	form.submit();
-}
 </script>
 
 <section class="mt-5">
@@ -159,48 +163,42 @@ function ReplyWrite__submitForm(form){
   </div>
 </section>
 
-
-
 <section class="mt-5">
   <div class="container mx-auto px-3">
-  <h1>댓글 작성</h1>
-	<c:if test="${rq.logined }">
-	<form class="table-box-type-1" method="POST" action="../reply/doWrite" onsubmit="ReplyWrite__submitForm(this); return false;">
-	  <input type="hidden" name="relTypeCode" value="article"/>
-	  <input type="hidden" name="relId" value="${article.id}"/>
-	
-      <table>
-      <colgroup>
-        <col width="200"/>
-      </colgroup>
-        <tbody>
-              
-        <tr>
-            <th>작성자</th>
-            <td>${rq.loginedMember.nickname}</td>
-          </tr>
-         
-          <tr>
-            <th>내용</th>
-            <td>
-              <textarea class="w-full textarea textarea-bordered" name="body" placeholder="내용" ></textarea>
-            </td>
-          </tr>
-          <tr>
-            <th>댓글작성</th>
-            <td>
-              <input type="submit" class="btn btn-primary" value="댓글작성"/>
-            </td>
-          </tr>
-        </tbody>
-      </table>   
-	
-	</form>
+  	<h1>댓글 작성</h1>
+	<c:if test="${rq.logined}">
+		<form class="table-box-type-1" method="POST" action="../reply/doWrite" onsubmit="ReplyWrite__submitForm(this); return false;">
+		  <input type="hidden" name="relTypeCode" value="article"/>
+		  <input type="hidden" name="relId" value="${article.id}"/>
+		
+	      <table>
+	      <colgroup>
+	        <col width="200"/>
+	      </colgroup>
+	        <tbody>
+	          <tr>
+	            <th>작성자</th>
+	            <td>${rq.loginedMember.nickname}</td>
+	          </tr>
+	          <tr>
+	            <th>내용</th>
+	            <td>
+	              <textarea class="w-full textarea textarea-bordered" name="body" placeholder="내용" ></textarea>
+	            </td>
+	          </tr>
+	          <tr>
+	            <th>댓글작성</th>
+	            <td>
+	              <input type="submit" class="btn btn-primary" value="댓글작성"/>
+	            </td>
+	          </tr>
+	        </tbody>
+	      </table>
+		</form>
 	</c:if>
-	
-		<c:if test="${rq.notLogined}">
+	<c:if test="${rq.notLogined}">
 		<a class="btn btn-link" href="/usr/member/login">로그인</a>후 이용해주세요
-		</c:if>
+	</c:if>
   </div>
 </section>
 

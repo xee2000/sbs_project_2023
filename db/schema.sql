@@ -244,3 +244,22 @@ SELECT A.*,
 		
 		SELECT * FROM reply
 	
+	#댓글에 좋아요 수, 싫어요 수 컬럼 추가
+		ALTER TABLE reply
+		ADD COLUMN goodReactionPoint INT(10) UNSIGNED NOT NULL DEFAULT 0;
+		
+		ALTER TABLE reply
+		ADD COLUMN badReactionPoint INT(10) UNSIGNED NOT NULL DEFAULT 0;
+		
+		#댓글 색인작업
+		ALTER TABLE `reply` ADD INDEX (`relTypeCode`, `relId`);
+
+			#유효성검사
+			explain select R.*,
+			M.nickname AS extra__writerName
+			from reply AS R
+			left join `member` AS M
+			on R.memberId = M.id
+			where R.relTypeCode = #{relTypeCode}
+			and R.relId = #{relId}
+			order by R.id desc

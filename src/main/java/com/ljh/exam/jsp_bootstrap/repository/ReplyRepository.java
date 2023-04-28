@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.ljh.exam.jsp_bootstrap.vo.Reply;
 
@@ -54,4 +55,12 @@ public interface ReplyRepository {
 			where id = #{id}
 			""")	
 	void deleteReply(int id);
+
+	@Update("""
+			update reply
+			set updateDate = now(),
+			`body` = #{body}
+			where id = #{id}
+			""")
+	void modifyReply(int id, String body);
 }

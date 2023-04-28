@@ -134,7 +134,7 @@
 	
 	<update id="decreaseBadReactionPoint">
 		UPDATE article
-		SET BadReactionPoint = BadReactionPoint - 1
+		SET badReactionPoint = badReactionPoint - 1
 		WHERE id = #{id}
 	</update>
 </mapper>

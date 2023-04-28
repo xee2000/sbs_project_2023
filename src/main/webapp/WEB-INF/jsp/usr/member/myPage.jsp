@@ -7,7 +7,7 @@
 <section class="mt-5">
   <div class="container mx-auto">
 	 <div class="table-box-type-1">
-	  <form class="table-box-type-1" method="POST" action="../member/doLogin">
+	  <form class="table-box-type-1" method="POST" action="../member/doCheckPassword">
 		  <table>
 		  <colgroup>
 		  <col width="200"/>

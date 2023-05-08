@@ -1,11 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="pageTitle" value="게시물 수정" />
+<c:set var="pageTitle" value="회원정보 수정" />
 <%@include file="../common/head.jspf"%>
-c
+<script>
+	let MemberModify__submitDone = false;
+	function MemberModify__submit(form) {
+		if (MemberModify__submitDone) {
+			return;
+		}
+		if (form.loginPwInput.value.trim().length == 0) {
+			alert('비밀번호를 입력해주세요.');
+			form.loginPwInput.focus();
+			return;
+		}
+		form.loginPw.value = form.loginPwInput.value.trim();
+		form.loginPwInput.value = '';
+		if (form.loginPw.value !== rq.loginedMember.loginPw) {
+			alert('비밀번호가 일치하지 않습니다.');
+			form.loginPwInput.focus();
+			return;
+		}
+		MemberCheckPassword__submitDone = true;
+		form.submit();
+	}
+</script>
 <section class="mt-5">
 		<div class="container mx-auto px-3">
-				<form class="table-box-type-1" method="POST" action="../member/doModify" onsubmit="MemberModify__submit">
+				<form class="table-box-type-1" method="POST" action="../member/doModify" onsubmit="MemberModify__submit(this); return false;">
 						<input type="hidden" name="memberModifyAuthKey" value="${param.memberModifyAuthKey}" />
 
 						<table>

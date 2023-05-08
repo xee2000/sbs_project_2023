@@ -1,7 +1,13 @@
 package com.ljh.exam.jsp_bootstrap.utill;
 
 import java.net.URLEncoder;
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 public class Ut {
 	public static boolean empty(Object obj) {
@@ -89,7 +95,49 @@ public class Ut {
 			index = (int) (charArr.length * Math.random());
 			sb.append(charArr[index]);
 		}
-
 		return sb.toString();
 	}
+	
+	public static Map<String, String> getParamMap(HttpServletRequest request) {
+		Map<String, String> param = new HashMap<>();
+
+		Enumeration<String> parameterNames = request.getParameterNames();
+
+		while (parameterNames.hasMoreElements()) {
+			String paramName = parameterNames.nextElement();
+			String paramValue = request.getParameter(paramName);
+
+			param.put(paramName, paramValue);
+		}
+
+		return param;
+	}
+	
+	public static String getStrAttr(Map map, String attrName, String defaultValue) {
+		if ( map.containsKey(attrName)) {
+			return (String)map.get(attrName);
+		}
+
+		return defaultValue;
+	}
+	
+	public static String sha256(String base) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if (hex.length() == 1)
+                    hexString.append('0');
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+
+        } catch (Exception ex) {
+            return "";
+        }
+    }
 }

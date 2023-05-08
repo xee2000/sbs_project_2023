@@ -10,6 +10,7 @@
 		if (MemberCheckPassword__submitDone) {
 			return;
 		}
+		form.loginPwInput.value = form.loginPwInput.value.trim();
 		if (form.loginPwInput.value.trim().length == 0) {
 			alert('비밀번호를 입력해주세요.');
 			form.loginPwInput.focus();

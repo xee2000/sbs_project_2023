@@ -1,33 +1,38 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="pageTitle" value="댓글 수정"/>
+<c:set var="pageTitle" value="게시물 수정"/>
 <%@include file="../common/head.jspf" %>
+<%@include file="../../common/toastUiEditorLib.jspf" %>
+
 <script>
-	// 댓글작성 관련
-	let ReplyModify__submitDone = false;
-	function ReplyModify__submitForm(form) {
-		if ( ReplyModify__submitDone ) {
+	let ArticleModify__submitDone = false;
+	function ArticleModify__submit(form) {
+		if ( ArticleModify__submitDone ) {
+			alert("처리중입니다..");
 			return;
 		}    
 		
-		// 좌우공백 제거
-		form.body.value = form.body.value.trim();
+		const editor = $(form).find('.toast-ui-editor').data('data-toast-editor');
+		const markdown = editor.getMarkdown().trim();
 		
-		if ( form.body.value.length == 0 ) {
+		if ( markdown.length == 0 ) {
 			alert('내용을 입력해주세요.');
-			form.body.focus();
+			editor.focus();
 			return;
 		}
 		
-		ReplyModify__submitDone = true;
+		form.body.value = markdown;
+		
+		ArticleModify__submitDone = true;
 		form.submit();		
 	}
 </script>
 
 <section class="mt-5">
   <div class="container mx-auto px-3">
-	<form class="table-box-type-1" method="POST" action="../reply/doModify" onsubmit="ReplyModify__submit">
-	  <input type="hidden" name="id" value="${reply.id}"/>
+	<form class="table-box-type-1" method="POST" action="../article/doModify" onsubmit="ArticleModify__submit(this); return false;">
+	  <input type="hidden" name="id" value="${article.id}"/>
+	  <input type="hidden" name="body"/>
 	
       <table>
       <colgroup>
@@ -35,47 +40,65 @@
       </colgroup>
         <tbody>
           <tr>
-            <th>게시물번호</th>
-            <td>${reply.relId}</td>
-          </tr>
-           <tr>
-            <th>댓글번호</th>
-            <td>${reply.id}</td>
+            <th>번호</th>
+            <td>${article.id}</td>
           </tr>
           <tr>
-            <th>댓글 작성날짜</th>
-            <td>${reply.getRegDateForPrint()}</td>
+            <th>작성날짜</th>
+            <td>${article.getRegDateForPrint()}</td>
           </tr>
           <tr>
-            <th>댓글 수정날짜</th>
-            <td>${reply.getUpdateDateForPrint()}</td>
+            <th>수정날짜</th>
+            <td>${article.getUpdateDateForPrint()}</td>
           </tr>
           <tr>
             <th>작성자</th>
-            <td>${reply.extra__writerName}</td>
+            <td>${article.extra__writerName}</td>
           </tr>
-          
-           <tr>
-            <th>댓글 추천</th>
+          <tr>
+            <th>조회수</th>
             <td>
-            <span class="badge badge-primary article-detail__hit-count">${reply.goodReactionPoint }</span>
+            	<span class="text-blue-700 article-detail__hit-count">${article.hitCount}</span>
+			</td>
+          </tr>
+          <tr>
+            <th>추천</th>
+            <td>
+            	<span class="text-blue-700">${article.goodReactionPoint}</span>
+			</td>
+          </tr>
+          <tr>
+            <th>제목</th>
+            <td>
+              <input type="text" class="w-96 input input-bordered w-full max-w-xs" name="title" placeholder="제목" value="${article.title}"/>
             </td>
           </tr>
           <tr>
             <th>내용</th>
             <td>
-              <textarea rows="5" class="w-full textarea textarea-bordered" name="body" placeholder="내용" >${reply.body}</textarea>
+              <div class="toast-ui-editor">
+              	<script type="text/x-template">${article.body}</script>
+              </div>
             </td>
           </tr>
           <tr>
-            <th>댓글 수정</th>
+            <th>수정</th>
             <td>
-              <input type="submit" class="btn btn-primary" value="댓글 수정"/>
+              <input type="submit" class="btn btn-primary" value="수정"/>
               <button type="button" class="btn btn-outline btn-primary" onclick="history.back();">뒤로가기</button>
             </td>
           </tr>
         </tbody>
       </table>   
+	
+	  <div class="btns">
+		<button class="btn btn-link" type="button" onclick="history.back();">뒤로가기</button>
+		<a class="btn btn-link" href="../article/modify?id=${article.id}">게시물 수정</a>
+		
+		<c:if test="${article.extra__actorCanDelete}">
+			<a class="btn btn-link" onclick="if( confirm('정말 삭제하시겠습니까?') == false )return false;" href="../article/doDelete?id=${article.id}">게시물 삭제</a>
+		</c:if>	
+	  </div>
 	</form>
   </div>
 </section>
